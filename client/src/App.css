@@ -1,0 +1,51 @@
+:root {
+  --background-color: #fbfbff;
+  --black-text-color: #1b1b1b;
+  --white-text-color: #fefefe;
+  --primary-color: #0b4f6c;
+  --secondary-color: #168c7d;
+  --success-color: #25a350;
+  --warning-color: #a9a429;
+  --danger-color: #db1717;
+  font-size: 16px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  height: 100%;
+  background-color: var(--background-color);
+}
+
+a {
+  text-decoration: none;
+}
+
+h1 {
+  font-size: 2.75rem;
+}
+
+h2 {
+  font-size: 2.25rem;
+}
+
+h3 {
+  font-size: 2rem;
+}
+
+h4 {
+  font-size: 1.75rem;
+}
+
+h5 {
+  font-size: 1.5rem;
+}
+
+h6 {
+  font-size: 1rem;
+}

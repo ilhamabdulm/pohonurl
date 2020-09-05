@@ -1,0 +1,47 @@
+.form-input {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem 0;
+  font-size: 1.15rem;
+}
+
+.form-input > input {
+  padding: 0.65rem;
+  font-size: 1.25rem;
+  border: 1px solid #ccc;
+  border-radius: 0.35rem;
+  margin-top: 0.25rem;
+}
+
+.form-input > input::placeholder {
+  font-size: 1rem;
+}
+
+.form-input > input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.form-input > input:focus:invalid {
+  outline: none;
+  border-color: var(--danger-color);
+}
+
+.form-input input:focus:invalid .error {
+  content: 'This field is required';
+  color: red;
+}
+
+.form-input > input[type='password'] {
+  letter-spacing: 0.35rem;
+}
+
+.form-input > input[type='password']:placeholder-shown {
+  letter-spacing: 0;
+}
+
+.form-input > .hint {
+  color: var(--primary-color);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
