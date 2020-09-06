@@ -4,7 +4,7 @@ import styles from './styles.module.css';
 
 import TextField from '../../components/fields/TextField';
 import Button from '../../components/elements/Button';
-import { DEMO_PHOTO, IC_LOGOUT } from '../../config/images';
+import { DEMO_PHOTO, IC_LOGOUT, IC_TREE } from '../../config/images';
 
 export default function MainPage() {
   const [linkList, setLinkList] = useState([]);
@@ -70,8 +70,10 @@ export default function MainPage() {
       <article className={styles['content-box']}>
         <header>
           <div className={styles.title}>
-            <h2>PohonUrl</h2>
-            <p>Atur link kamu, sesukamu!</p>
+            <img src="ic-tree" src={IC_TREE} />
+            <h2>
+              PohonUrl <span>Atur link kamu, sesukamu!</span>
+            </h2>
           </div>
           <div className={styles.profile}>
             <p>Hello, ilhammarzlik</p>
