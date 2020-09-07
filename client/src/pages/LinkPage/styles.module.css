@@ -6,7 +6,7 @@
 }
 
 .content {
-  width: 70%;
+  width: 75%;
   height: inherit;
   /* background-color: #fefefe; */
   padding: 2rem;
@@ -36,22 +36,6 @@
   width: inherit;
 }
 
-.link-card {
-  width: 100%;
-  background-color: var(--primary-color);
-  color: var(--white-text-color);
-  padding: 1rem 2rem;
-  margin: 1rem 0;
-  text-align: center;
-  cursor: pointer;
-}
-
-.link-card:hover {
-  background-color: var(--white-text-color);
-  color: var(--primary-color);
-  outline: 2px solid var(--primary-color);
-}
-
 .content > footer {
   margin: 2rem 0;
   text-align: center;
@@ -70,13 +54,13 @@
   margin-top: 0.5rem;
 }
 
-@media only screen and (max-width: 72rem) {
+@media (max-width: 72rem) {
   .content {
     width: 80%;
   }
 }
 
-@media only screen and (max-width: 48rem) {
+@media (max-width: 48rem) {
   .content {
     width: 90vw;
     margin: 0;

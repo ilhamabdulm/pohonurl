@@ -3,8 +3,9 @@ import styles from './styles.module.css';
 import { useParams } from 'react-router-dom';
 
 import { DEMO_PHOTO } from '../../config/images';
+import LinkCard from '../../components/fragments/LinkCard';
 
-export default function LinkPage() {
+export default function LinkPage({ userProps }) {
   const { username } = useParams();
 
   return (
@@ -12,7 +13,7 @@ export default function LinkPage() {
       <article className={styles.content}>
         <header>
           <img alt="profpic" className={styles.profpic} src={DEMO_PHOTO} />
-          <h3>@{username}</h3>
+          <h3>@{username ? username : userProps}</h3>
           <h4>Ilham Abdul Malik</h4>
         </header>
         <section>
@@ -27,11 +28,3 @@ export default function LinkPage() {
     </main>
   );
 }
-
-export const LinkCard = ({ name }) => {
-  return (
-    <div className={styles['link-card']}>
-      <h3>{name}</h3>
-    </div>
-  );
-};

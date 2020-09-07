@@ -1,0 +1,41 @@
+.add-new {
+  width: 60%;
+}
+
+.add-new > h4 {
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.add-new > h4 span {
+  font-size: 0.85rem;
+  padding: 0.5rem 1.25rem;
+  color: var(--white-text-color);
+  background-color: var(--primary-color);
+  margin-left: 1.25rem;
+  position: relative;
+}
+
+.add-new > h4 span::before {
+  content: '';
+  position: absolute;
+  left: -0.5rem;
+  top: 0.55rem;
+  transform: rotate(45deg);
+  width: 1rem;
+  height: 1rem;
+  background-color: var(--primary-color);
+}
+
+.add-new > form > button {
+  margin-top: 1.5rem;
+}
+
+.add-new > form > .link-action {
+  margin-top: 1.5rem;
+}
+
+.add-new > form > .link-action > button {
+  margin-right: 0.75rem;
+}

@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import styles from './styles.module.css';
 
-import TextField from '../../components/fields/TextField';
-import Button from '../../components/elements/Button';
-import { DEMO_PHOTO, IC_LOGOUT, IC_TREE } from '../../config/images';
+import styles from './styles.module.css';
+import { IC_LOGOUT, IC_TREE } from '../../config/images';
+
+import ModalPreview from '../../components/fragments/ModalPreview';
+import { ProfileSection } from '../../components/fragments/ProfileSection';
+import AddLink from '../../components/forms/AddLink';
+import LinkDetails from '../../components/fragments/LinkDetails';
 
 export default function MainPage() {
   const [linkList, setLinkList] = useState([]);
@@ -14,6 +17,7 @@ export default function MainPage() {
     linkUrl: '',
   });
   const [isLinkEdit, setLinkEdit] = useState(false);
+  const [openPreview, setOpenPreview] = useState(false);
   const { replace } = useHistory();
 
   const handleChange = ({ target }) => {
@@ -66,177 +70,70 @@ export default function MainPage() {
   };
 
   return (
-    <main className={styles.root}>
-      <article className={styles['content-box']}>
-        <header>
-          <div className={styles.title}>
-            <img src="ic-tree" src={IC_TREE} />
-            <h2>
-              PohonUrl <span>Atur link kamu, sesukamu!</span>
-            </h2>
-          </div>
-          <div className={styles.profile}>
-            <p>Hello, ilhammarzlik</p>
-            <h6 className={styles['logout-btn']} onClick={() => replace('/')}>
-              Logout
-              <img alt="ic-logout" src={IC_LOGOUT} />
-            </h6>
-          </div>
-        </header>
-        <article className={styles.content}>
-          <section className={styles['manage-link']}>
-            <div className={styles['add-new']}>
-              <h4>
-                Tambah Link Baru{' '}
-                {!linkList.length && (
-                  <span className={styles['start-here']}>
-                    Yuk mulai dari sini!
-                  </span>
-                )}
-              </h4>
-              <form>
-                <TextField
-                  inputProps={{
-                    placeholder: 'cth: Instagram',
-                    value: addLink.linkName,
-                    required: true,
-                  }}
-                  name="linkName"
-                  label="Nama Link"
-                  handleChange={handleChange}
-                />
-                <TextField
-                  inputProps={{
-                    placeholder: 'cth: https://instagram.com/usernamekamu',
-                    value: addLink.linkUrl,
-                    required: true,
-                  }}
-                  name="linkUrl"
-                  label="URL"
-                  handleChange={handleChange}
-                />
-                {!isLinkEdit ? (
-                  <Button
-                    handleClick={handleSubmitLink}
-                    type="submit"
-                    variant="primary"
-                  >
-                    Tambah
-                  </Button>
-                ) : (
-                  <div className={styles['link-action']}>
-                    <Button
-                      handleClick={handleSubmitEdit}
-                      type="submit"
-                      variant="ternary"
-                    >
-                      Simpan
-                    </Button>
-                    <Button
-                      handleClick={(e) => {
-                        setLinkEdit(false);
-                        setAddLink({
-                          id: '',
-                          linkName: '',
-                          linkUrl: '',
-                        });
-                      }}
-                      variant="danger"
-                    >
-                      Batal
-                    </Button>
-                  </div>
-                )}
-              </form>
+    <>
+      <main className={styles.root}>
+        <article className={styles['content-box']}>
+          <header>
+            <div className={styles.title}>
+              <img alt="ic-tree" src={IC_TREE} />
+              <h2>
+                PohonUrl <span>Atur link kamu, sesukamu!</span>
+              </h2>
             </div>
-            {linkList.length ? (
-              <div className={styles['manage']}>
-                <header>
-                  <h4>
-                    Atur Link Kamu
-                    <span>Silakan drag & drop untuk mengatur urutan link</span>
-                  </h4>
-                  <p>Live Preview</p>
-                </header>{' '}
-                <section className={styles['link-list']}>
-                  {linkList.map((el) => (
-                    <LinkCard
-                      data={el}
-                      handleDelete={handleDeleteLink}
-                      handleEdit={handleEditLink}
-                    />
-                  ))}
-                </section>
-              </div>
-            ) : null}
-          </section>
-          <aside className={styles['manage-profile']}>
-            <header className={styles['profile-header']}>
-              <h4>Bagikan Link Kamu</h4>
-              <a href="/">https://pohonurl.com/ilhammarzlik</a>
-            </header>
-            <ProfileSection />
-          </aside>
+            <div className={styles.profile}>
+              <p>Hello, ilhammarzlik</p>
+              <h6 className={styles['logout-btn']} onClick={() => replace('/')}>
+                Logout
+                <img alt="ic-logout" src={IC_LOGOUT} />
+              </h6>
+            </div>
+          </header>
+          <article className={styles.content}>
+            <section className={styles['manage-link']}>
+              <AddLink
+                addLink={addLink}
+                handleChange={handleChange}
+                handleSubmitLink={handleSubmitLink}
+                handleSubmitEdit={handleSubmitEdit}
+                isLinkEdit={isLinkEdit}
+                linkList={linkList}
+                setLinkEdit={setLinkEdit}
+                setAddLink={setAddLink}
+              />
+              {linkList.length ? (
+                <div className={styles['manage']}>
+                  <header>
+                    <h4>
+                      Atur Link Kamu
+                      <span>
+                        Silakan drag & drop untuk mengatur urutan link
+                      </span>
+                    </h4>
+                    <p onClick={() => setOpenPreview(true)}>Live Preview</p>
+                  </header>{' '}
+                  <section className={styles['link-list']}>
+                    {linkList.map((el) => (
+                      <LinkDetails
+                        data={el}
+                        handleDelete={handleDeleteLink}
+                        handleEdit={handleEditLink}
+                      />
+                    ))}
+                  </section>
+                </div>
+              ) : null}
+            </section>
+            <aside className={styles['manage-profile']}>
+              <header className={styles['profile-header']}>
+                <h4>Bagikan Link Kamu</h4>
+                <a href="/ilham">https://pohonurl.com/ilhammarzlik</a>
+              </header>
+              <ProfileSection />
+            </aside>
+          </article>
         </article>
-      </article>
-    </main>
+      </main>
+      <ModalPreview onClose={() => setOpenPreview(false)} open={openPreview} />
+    </>
   );
 }
-
-export const LinkCard = ({ data, handleDelete, handleEdit }) => {
-  return (
-    <div className={styles['link-card']}>
-      <div className={styles['link-card-name']}>
-        <h6>{data.linkName}</h6>
-        <h5>
-          {data.linkUrl.startsWith('https') || data.linkUrl.startsWith('http')
-            ? data.linkUrl
-            : `https://${data.linkUrl}`}
-        </h5>
-      </div>
-      <div className={styles['link-card-action']}>
-        <p onClick={() => handleEdit(data)}>Edit</p>
-        <p onClick={() => handleDelete(data.id)}>Delete</p>
-      </div>
-    </div>
-  );
-};
-
-export const ProfileSection = () => {
-  const [isEdit, setEdit] = useState(false);
-
-  return (
-    <section className={styles['profile-section']}>
-      <figure>
-        <img alt="prof-pic" src={DEMO_PHOTO} />
-      </figure>
-      <div>
-        <TextField
-          inputProps={{ disabled: !isEdit, value: 'Ilham Abdul Malik' }}
-          name="name"
-          label="Nama Lengkap"
-        />
-        <TextField
-          inputProps={{ disabled: !isEdit, value: 'ilhammarzlik' }}
-          name="username"
-          label="Username"
-        />
-      </div>
-      <div className={styles['profile-action']}>
-        {isEdit ? (
-          <>
-            {' '}
-            <Button handleClick={() => setEdit(false)} variant="danger">
-              Batal
-            </Button>
-            <Button variant="primary">Simpan</Button>
-          </>
-        ) : (
-          <Button handleClick={() => setEdit(true)} variant="secondary">
-            Ubah Data
-          </Button>
-        )}
-      </div>
-    </section>
-  );
-};

@@ -1,0 +1,41 @@
+/* Login Form */
+
+.login-form {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-around; */
+  align-items: center;
+}
+
+.login-form > header > h1 {
+  color: var(--primary-color);
+}
+
+.login-form > * {
+  margin: 1.5rem 1rem;
+}
+
+.login-form > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-form > div > * {
+  margin: 1.15rem 0;
+}
+
+.login-form > div > p {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 500;
+  text-decoration: underline;
+  cursor: pointer;
+  text-align: center;
+}
+
+.login-form > div > p:hover {
+  color: var(--primary-color);
+}

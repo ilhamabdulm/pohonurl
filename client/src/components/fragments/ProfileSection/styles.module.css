@@ -1,0 +1,27 @@
+/* Profile Section */
+
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 4rem;
+}
+
+.profile-section > figure > img {
+  width: 12.5rem;
+  height: 12.5rem;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.profile-section > * {
+  margin: 0.5rem 0;
+}
+
+.profile-section > .profile-action {
+  display: flex;
+}
+
+.profile-section > .profile-action > * {
+  margin: 0 0.5rem;
+}
