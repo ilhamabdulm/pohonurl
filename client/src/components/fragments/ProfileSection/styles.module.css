@@ -1,6 +1,7 @@
 /* Profile Section */
 
 .profile-section {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,4 +25,10 @@
 
 .profile-section > .profile-action > * {
   margin: 0 0.5rem;
+}
+
+@media only screen and (max-width: 48rem) {
+  .profile-section {
+    padding: 1rem;
+  }
 }

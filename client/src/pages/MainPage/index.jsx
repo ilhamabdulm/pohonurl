@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import styles from './styles.module.css';
@@ -8,6 +8,7 @@ import ModalPreview from '../../components/fragments/ModalPreview';
 import { ProfileSection } from '../../components/fragments/ProfileSection';
 import AddLink from '../../components/forms/AddLink';
 import LinkDetails from '../../components/fragments/LinkDetails';
+import useWindowSize from '../../utils/windowSize';
 
 export default function MainPage() {
   const [linkList, setLinkList] = useState([]);
@@ -18,7 +19,15 @@ export default function MainPage() {
   });
   const [isLinkEdit, setLinkEdit] = useState(false);
   const [openPreview, setOpenPreview] = useState(false);
+  const [isProfile, setIsProfile] = useState(false);
+  const [isMobile, setMobile] = useState(false);
   const { replace } = useHistory();
+  const { width } = useWindowSize();
+
+  useEffect(() => {
+    if (width < 754) setMobile(true);
+    else setMobile(false);
+  }, [width]);
 
   const handleChange = ({ target }) => {
     const newAdd = { ...addLink };
@@ -89,47 +98,93 @@ export default function MainPage() {
             </div>
           </header>
           <article className={styles.content}>
-            <section className={styles['manage-link']}>
-              <AddLink
-                addLink={addLink}
-                handleChange={handleChange}
-                handleSubmitLink={handleSubmitLink}
-                handleSubmitEdit={handleSubmitEdit}
-                isLinkEdit={isLinkEdit}
-                linkList={linkList}
-                setLinkEdit={setLinkEdit}
-                setAddLink={setAddLink}
-              />
-              {linkList.length ? (
-                <div className={styles['manage']}>
-                  <header>
-                    <h4>
-                      Atur Link Kamu
-                      <span>
-                        Silakan drag & drop untuk mengatur urutan link
-                      </span>
-                    </h4>
-                    <p onClick={() => setOpenPreview(true)}>Live Preview</p>
-                  </header>{' '}
-                  <section className={styles['link-list']}>
-                    {linkList.map((el) => (
-                      <LinkDetails
-                        data={el}
-                        handleDelete={handleDeleteLink}
-                        handleEdit={handleEditLink}
-                      />
-                    ))}
-                  </section>
-                </div>
-              ) : null}
-            </section>
-            <aside className={styles['manage-profile']}>
-              <header className={styles['profile-header']}>
-                <h4>Bagikan Link Kamu</h4>
-                <a href="/ilham">https://pohonurl.com/ilhammarzlik</a>
-              </header>
-              <ProfileSection />
-            </aside>
+            {width < 754 && <NavMobile setIsProfile={setIsProfile} />}
+            {!isMobile && (
+              <section className={styles['manage-link']}>
+                <AddLink
+                  addLink={addLink}
+                  handleChange={handleChange}
+                  handleSubmitLink={handleSubmitLink}
+                  handleSubmitEdit={handleSubmitEdit}
+                  isLinkEdit={isLinkEdit}
+                  linkList={linkList}
+                  setLinkEdit={setLinkEdit}
+                  setAddLink={setAddLink}
+                />
+                {linkList.length ? (
+                  <div className={styles['manage']}>
+                    <header>
+                      <h4>
+                        Atur Link Kamu
+                        <span>
+                          Silakan drag & drop untuk mengatur urutan link
+                        </span>
+                      </h4>
+                      <p onClick={() => setOpenPreview(true)}>Live Preview</p>
+                    </header>{' '}
+                    <section className={styles['link-list']}>
+                      {linkList.map((el) => (
+                        <LinkDetails
+                          data={el}
+                          handleDelete={handleDeleteLink}
+                          handleEdit={handleEditLink}
+                        />
+                      ))}
+                    </section>
+                  </div>
+                ) : null}
+              </section>
+            )}
+            {isMobile && !isProfile ? (
+              <section className={styles['manage-link']}>
+                <AddLink
+                  addLink={addLink}
+                  handleChange={handleChange}
+                  handleSubmitLink={handleSubmitLink}
+                  handleSubmitEdit={handleSubmitEdit}
+                  isLinkEdit={isLinkEdit}
+                  linkList={linkList}
+                  setLinkEdit={setLinkEdit}
+                  setAddLink={setAddLink}
+                />
+                {linkList.length ? (
+                  <div className={styles['manage']}>
+                    <header>
+                      <h4>
+                        Atur Link Kamu
+                        <span>
+                          Silakan drag & drop untuk mengatur urutan link
+                        </span>
+                      </h4>
+                      <p onClick={() => setOpenPreview(true)}>Live Preview</p>
+                    </header>{' '}
+                    <section className={styles['link-list']}>
+                      {linkList.map((el) => (
+                        <LinkDetails
+                          data={el}
+                          handleDelete={handleDeleteLink}
+                          handleEdit={handleEditLink}
+                        />
+                      ))}
+                    </section>
+                  </div>
+                ) : null}
+              </section>
+            ) : null}
+            {!isMobile && (
+              <aside className={styles['manage-profile']}>
+                <header className={styles['profile-header']}>
+                  <h4>Bagikan Link Kamu</h4>
+                  <a href="/ilham">https://pohonurl.com/ilhammarzlik</a>
+                </header>
+                <ProfileSection />
+              </aside>
+            )}
+            {isMobile && isProfile ? (
+              <aside className={styles['manage-profile']}>
+                <ProfileSection />
+              </aside>
+            ) : null}
           </article>
         </article>
       </main>
@@ -137,3 +192,18 @@ export default function MainPage() {
     </>
   );
 }
+
+export const NavMobile = ({ setIsProfile }) => {
+  return (
+    <header className={styles['nav-mobile']}>
+      <div>
+        <h4>Bagikan Link Kamu</h4>
+        <a href="/ilhammarzlik">https://pohonurl.com/ilhamarzlik</a>
+      </div>
+      <nav>
+        <p onClick={() => setIsProfile(false)}>Home</p>
+        <p onClick={() => setIsProfile(true)}>Profile</p>
+      </nav>
+    </header>
+  );
+};

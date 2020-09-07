@@ -39,3 +39,10 @@
 .add-new > form > .link-action > button {
   margin-right: 0.75rem;
 }
+
+@media only screen and (max-width: 48rem) {
+  .add-new {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+}
