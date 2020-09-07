@@ -14,7 +14,7 @@ export default function LinkDetails({ data, handleDelete, handleEdit }) {
       </div>
       <div className={styles['link-card-action']}>
         <p onClick={() => handleEdit(data)}>Edit</p>
-        <p onClick={() => handleDelete(data.id)}>Delete</p>
+        <p onClick={() => handleDelete(data._id)}>Delete</p>
       </div>
     </div>
   );

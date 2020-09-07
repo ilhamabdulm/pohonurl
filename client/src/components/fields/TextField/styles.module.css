@@ -27,9 +27,9 @@
   border-color: var(--danger-color);
 }
 
-.form-input input:focus:invalid .error {
-  content: 'This field is required';
+.error {
   color: red;
+  font-size: 0.85rem;
 }
 
 .form-input > input[type='password'] {

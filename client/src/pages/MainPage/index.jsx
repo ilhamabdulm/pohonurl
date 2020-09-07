@@ -1,19 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import styles from './styles.module.css';
+import { AppContext } from '../../contexts';
+import useWindowSize from '../../utils/windowSize';
+import { clearStorage } from '../../utils/storage';
+import {
+  userDetail,
+  addNewLink,
+  getAllLinks,
+  deleteLink,
+} from '../../utils/fetch';
 import { IC_LOGOUT, IC_TREE } from '../../config/images';
 
 import ModalPreview from '../../components/fragments/ModalPreview';
-import { ProfileSection } from '../../components/fragments/ProfileSection';
+import ProfileSection from '../../components/fragments/ProfileSection';
 import AddLink from '../../components/forms/AddLink';
 import LinkDetails from '../../components/fragments/LinkDetails';
-import useWindowSize from '../../utils/windowSize';
 
 export default function MainPage() {
-  const [linkList, setLinkList] = useState([]);
   const [addLink, setAddLink] = useState({
-    id: '',
     linkName: '',
     linkUrl: '',
   });
@@ -21,6 +27,7 @@ export default function MainPage() {
   const [openPreview, setOpenPreview] = useState(false);
   const [isProfile, setIsProfile] = useState(false);
   const [isMobile, setMobile] = useState(false);
+  const { linkList, setUserDetails, setLinkList } = useContext(AppContext);
   const { replace } = useHistory();
   const { width } = useWindowSize();
 
@@ -28,6 +35,15 @@ export default function MainPage() {
     if (width < 754) setMobile(true);
     else setMobile(false);
   }, [width]);
+
+  useEffect(() => {
+    userDetail()
+      .then((res) => setUserDetails(res.data))
+      .catch((err) => console.log(err));
+    getAllLinks()
+      .then((res) => setLinkList(res.data))
+      .catch((err) => console.log(err));
+  }, []);
 
   const handleChange = ({ target }) => {
     const newAdd = { ...addLink };
@@ -38,23 +54,35 @@ export default function MainPage() {
   const handleSubmitLink = (e) => {
     e.preventDefault();
     if (addLink.linkName && addLink.linkUrl) {
-      const added = {
-        ...addLink,
-        id: linkList.length ? linkList[linkList.length - 1].id + 1 : 0,
-      };
-      const newList = [...linkList, added];
-      setAddLink({
-        id: '',
-        linkName: '',
-        linkUrl: '',
-      });
-      setLinkList(newList);
+      if (
+        !addLink.linkUrl.startsWith('https') ||
+        addLink.linkUrl.startsWith('http')
+      ) {
+        addLink.linkUrl = `https://${addLink.linkUrl}`;
+      }
+      // console.log(addLink);
+      addNewLink(addLink)
+        .then((res) => {
+          setAddLink({
+            linkName: '',
+            linkUrl: '',
+          });
+          return getAllLinks();
+        })
+        .then((res) => setLinkList(res.data))
+        .catch((err) => console.log(err));
     }
   };
 
   const handleDeleteLink = (id) => {
-    const newDeleted = linkList.filter((el) => el.id !== id);
-    setLinkList(newDeleted);
+    deleteLink(id)
+      .then(() => {
+        return getAllLinks();
+      })
+      .then((res) => {
+        setLinkList(res.data);
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleEditLink = (data) => {
@@ -70,7 +98,6 @@ export default function MainPage() {
       newList[editedIdx] = addLink;
       setLinkList(newList);
       setAddLink({
-        id: '',
         linkName: '',
         linkUrl: '',
       });
@@ -91,7 +118,13 @@ export default function MainPage() {
             </div>
             <div className={styles.profile}>
               <p>Hello, ilhammarzlik</p>
-              <h6 className={styles['logout-btn']} onClick={() => replace('/')}>
+              <h6
+                className={styles['logout-btn']}
+                onClick={() => {
+                  replace('/');
+                  clearStorage();
+                }}
+              >
                 Logout
                 <img alt="ic-logout" src={IC_LOGOUT} />
               </h6>

@@ -5,14 +5,17 @@ import './App.css';
 import AuthPage from './pages/AuthPage';
 import MainPage from './pages/MainPage';
 import LinkPage from './pages/LinkPage';
+import MainContext from './contexts';
 
 function App() {
   return (
-    <Switch>
-      <Route exact path="/:username" component={LinkPage} />
-      <Route exact path="/" component={AuthPage} />
-      <Route exact path="/main/home" component={MainPage} />
-    </Switch>
+    <MainContext>
+      <Switch>
+        <Route exact path="/:username" component={LinkPage} />
+        <Route exact path="/" component={AuthPage} />
+        <Route exact path="/main/home" component={MainPage} />
+      </Switch>
+    </MainContext>
   );
 }
 

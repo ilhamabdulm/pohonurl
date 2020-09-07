@@ -3,6 +3,7 @@ import styles from './styles.module.css';
 
 import Button from '../../elements/Button';
 import TextField from '../../fields/TextField';
+import { register } from '../../../utils/fetch';
 
 export default function Register({ changeForm }) {
   const [state, setState] = useState({
@@ -10,6 +11,7 @@ export default function Register({ changeForm }) {
     username: '',
     password: '',
   });
+  const [errors, setErrors] = useState(null);
 
   const handleChange = ({ target }) => {
     const newState = { ...state };
@@ -20,6 +22,16 @@ export default function Register({ changeForm }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(state);
+    register(state)
+      .then((response) => {
+        if (response.success) {
+          console.log(response);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setErrors(err.errors[0]);
+      });
   };
 
   return (
@@ -33,6 +45,7 @@ export default function Register({ changeForm }) {
             placeholder: 'Email aktif kamu ya',
             required: true,
           }}
+          errors={errors}
           name="email"
           label="Email"
           handleChange={handleChange}
@@ -42,7 +55,8 @@ export default function Register({ changeForm }) {
             placeholder: 'Username kamu',
             required: true,
           }}
-          name="email"
+          errors={errors}
+          name="username"
           label="Username"
           handleChange={handleChange}
         />
@@ -52,6 +66,7 @@ export default function Register({ changeForm }) {
             placeholder: 'Password kamu',
             required: true,
           }}
+          errors={errors}
           hint="Password minimal 6 karakter"
           name="password"
           label="Password"

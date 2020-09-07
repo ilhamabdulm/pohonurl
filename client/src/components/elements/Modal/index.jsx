@@ -7,8 +7,6 @@ export default function Modal(props) {
     ? [styles.root, styles.active].filter(Boolean).join(' ')
     : styles.root;
 
-  console.log(customClass);
-
   return (
     <article className={customClass}>
       <div className={styles.overlay} onClick={onClose} />

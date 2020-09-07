@@ -39,3 +39,9 @@
 .login-form > div > p:hover {
   color: var(--primary-color);
 }
+
+.login-form > div > .error {
+  color: var(--danger-color);
+  text-align: center;
+  font-weight: 600;
+}

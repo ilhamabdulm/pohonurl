@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import styles from './styles.module.css';
+import { login } from '../../../utils/fetch';
+import { setToken, getToken } from '../../../utils/storage';
 
 import Button from '../../elements/Button';
 import TextField from '../../fields/TextField';
@@ -11,7 +13,12 @@ export default function Login({ changeForm }) {
     credential: '',
     password: '',
   });
+  const [errors, setErrors] = useState(null);
   const { push } = useHistory();
+
+  useEffect(() => {
+    if (getToken()) push('/main/home');
+  }, []);
 
   const handleChange = ({ target }) => {
     const newState = { ...state };
@@ -21,7 +28,17 @@ export default function Login({ changeForm }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (state.credential && state.password) push('/main/home');
+    if (state.credential && state.password) {
+      login(state)
+        .then((res) => {
+          setToken(res.data.accessToken);
+          setErrors(null);
+          push('/main/home');
+        })
+        .catch((err) => {
+          setErrors(err.errors);
+        });
+    }
   };
 
   return (
@@ -50,6 +67,9 @@ export default function Login({ changeForm }) {
           label="Password"
           handleChange={handleChange}
         />
+        {errors
+          ? errors.map((err) => <span className={styles.error}>{err}</span>)
+          : ''}
         <Button handleClick={handleSubmit} variant="primary">
           Masuk
         </Button>

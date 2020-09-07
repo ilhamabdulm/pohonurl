@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styles from './styles.module.css';
 
 import TextField from '../../fields/TextField';
 import Button from '../../elements/Button';
+import { AppContext } from '../../../contexts';
 
 export default function AddLink(props) {
   const {
@@ -11,10 +12,10 @@ export default function AddLink(props) {
     handleSubmitLink,
     handleSubmitEdit,
     isLinkEdit,
-    linkList,
     setLinkEdit,
     setAddLink,
   } = props;
+  const { linkList } = useContext(AppContext);
 
   return (
     <div className={styles['add-new']}>
