@@ -50,6 +50,11 @@
     align-items: flex-start;
   }
 
+  .link-card > .link-card-name > h5 {
+    font-size: 1rem;
+    word-wrap: break-word;
+  }
+
   .link-card > .link-card-action {
     flex-direction: row;
     margin-top: 0.75rem;

@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 
 import styles from './styles.module.css';
 import { AppContext } from '../../../contexts';
-import { DEMO_PHOTO } from '../../../config/images';
+import { DEFAULT_PROFPIC } from '../../../config/images';
 
 import Button from '../../elements/Button';
 import TextField from '../../fields/TextField';
@@ -46,7 +46,10 @@ export default function ProfileSection() {
   return (
     <section className={styles['profile-section']}>
       <figure>
-        <img alt="prof-pic" src={DEMO_PHOTO} />
+        <img
+          alt="prof-pic"
+          src={userDetails.avatar ? userDetails.avatar : DEFAULT_PROFPIC}
+        />
       </figure>
       <div>
         <TextField

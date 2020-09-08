@@ -10,6 +10,7 @@ import {
   addNewLink,
   getAllLinks,
   deleteLink,
+  updateLink,
 } from '../../utils/fetch';
 import { IC_LOGOUT, IC_TREE } from '../../config/images';
 
@@ -17,6 +18,7 @@ import ModalPreview from '../../components/fragments/ModalPreview';
 import ProfileSection from '../../components/fragments/ProfileSection';
 import AddLink from '../../components/forms/AddLink';
 import LinkDetails from '../../components/fragments/LinkDetails';
+import ModalSuccess from '../../components/fragments/ModalSuccess';
 
 export default function MainPage() {
   const [addLink, setAddLink] = useState({
@@ -27,7 +29,11 @@ export default function MainPage() {
   const [openPreview, setOpenPreview] = useState(false);
   const [isProfile, setIsProfile] = useState(false);
   const [isMobile, setMobile] = useState(false);
-  const { linkList, setUserDetails, setLinkList } = useContext(AppContext);
+  const [successModal, setSuccessModal] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const { userDetails, linkList, setUserDetails, setLinkList } = useContext(
+    AppContext
+  );
   const { replace } = useHistory();
   const { width } = useWindowSize();
 
@@ -69,7 +75,11 @@ export default function MainPage() {
           });
           return getAllLinks();
         })
-        .then((res) => setLinkList(res.data))
+        .then((res) => {
+          setSuccessModal(true);
+          setSuccessMessage('Berhasil menambahkan data baru');
+          setLinkList(res.data);
+        })
         .catch((err) => console.log(err));
     }
   };
@@ -80,6 +90,8 @@ export default function MainPage() {
         return getAllLinks();
       })
       .then((res) => {
+        setSuccessModal(true);
+        setSuccessMessage('Data berhasil dihapus.');
         setLinkList(res.data);
       })
       .catch((err) => console.log(err));
@@ -93,15 +105,21 @@ export default function MainPage() {
   const handleSubmitEdit = (e) => {
     e.preventDefault();
     if (addLink.linkName && addLink.linkUrl) {
-      const newList = [...linkList];
-      const editedIdx = linkList.findIndex((el) => el.id === addLink.id);
-      newList[editedIdx] = addLink;
-      setLinkList(newList);
-      setAddLink({
-        linkName: '',
-        linkUrl: '',
-      });
-      setLinkEdit(false);
+      updateLink(addLink._id, addLink)
+        .then(() => {
+          return getAllLinks();
+        })
+        .then((res) => {
+          setAddLink({
+            linkName: '',
+            linkUrl: '',
+          });
+          setSuccessModal(true);
+          setSuccessMessage('Berhasil mengubah data.');
+          setLinkList(res.data);
+          setLinkEdit(false);
+        })
+        .catch((err) => console.log(err));
     }
   };
 
@@ -117,7 +135,7 @@ export default function MainPage() {
               </h2>
             </div>
             <div className={styles.profile}>
-              <p>Hello, ilhammarzlik</p>
+              <p>Hello, {userDetails.name}</p>
               <h6
                 className={styles['logout-btn']}
                 onClick={() => {
@@ -208,7 +226,13 @@ export default function MainPage() {
               <aside className={styles['manage-profile']}>
                 <header className={styles['profile-header']}>
                   <h4>Bagikan Link Kamu</h4>
-                  <a href="/ilham">https://pohonurl.com/ilhammarzlik</a>
+                  <a
+                    href={`/${userDetails.username}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    https://pohonurl.com/{userDetails.username}
+                  </a>
                 </header>
                 <ProfileSection />
               </aside>
@@ -222,6 +246,12 @@ export default function MainPage() {
         </article>
       </main>
       <ModalPreview onClose={() => setOpenPreview(false)} open={openPreview} />
+      <ModalSuccess
+        onClose={() => setSuccessModal(false)}
+        open={successModal}
+        action={() => setSuccessModal(false)}
+        message={successMessage}
+      />
     </>
   );
 }

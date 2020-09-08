@@ -44,3 +44,6 @@ export const deleteLink = async (id) =>
 
 export const updateLink = async (id, data) =>
   await fetchApi(`links/${id}`, 'put', data, { headers: { token } });
+
+export const getUserLinks = async (username) =>
+  await fetchApi(`links/user/${username}`, 'get');
