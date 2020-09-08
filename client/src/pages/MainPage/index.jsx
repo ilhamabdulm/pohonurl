@@ -236,7 +236,7 @@ export default function MainPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    https://jadisatu.in/{userDetails.username}
+                    https://jadisatu.in/id/{userDetails.username}
                   </a>
                 </header>
                 <ProfileSection />
@@ -278,7 +278,7 @@ export const NavMobile = ({ setIsProfile, userDetails }) => {
       <div>
         <h4>Bagikan Link Kamu</h4>
         <a href={`$/${userDetails.username}`}>
-          https://jadisatu.in/{userDetails.username}
+          https://jadisatu.in/id/{userDetails.username}
         </a>
       </div>
       <nav>

@@ -25,7 +25,10 @@ export default function LinkDetails({ data, handleDelete, handleEdit }) {
       <ModalConfirmation
         message="Apakah kamu yakin untuk menghapus link ini?"
         onClose={() => setModalDelete(false)}
-        action={() => handleDelete(data._id)}
+        action={() => {
+          setModalDelete(false);
+          handleDelete(data._id);
+        }}
         open={modalDelete}
       />
     </>
