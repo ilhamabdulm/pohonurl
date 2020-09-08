@@ -13,7 +13,7 @@ export default function AuthPage() {
   const { push } = useHistory();
 
   useEffect(() => {
-    if (getToken()) push('/main/hoome');
+    if (getToken()) push('/main/home');
     // eslint-disable-next-line
   }, []);
 
