@@ -1,13 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './styles.module.css';
 
 import { ILLU_SHARE } from '../../config/images';
 
 import Login from '../../components/forms/Login';
 import Register from '../../components/forms/Register';
+import { useHistory } from 'react-router-dom';
+import { getToken } from '../../utils/storage';
 
 export default function AuthPage() {
   const [isLogin, setLogin] = useState(true);
+  const { push } = useHistory();
+
+  useEffect(() => {
+    if (getToken()) push('/main/hoome');
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <main className={styles.root}>

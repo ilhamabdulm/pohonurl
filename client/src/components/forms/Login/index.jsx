@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
 
 import styles from './styles.module.css';
 import { login } from '../../../utils/fetch';
-import { setToken, getToken } from '../../../utils/storage';
+import { setToken } from '../../../utils/storage';
 
 import Button from '../../elements/Button';
 import TextField from '../../fields/TextField';
@@ -14,12 +13,6 @@ export default function Login({ changeForm }) {
     password: '',
   });
   const [errors, setErrors] = useState(null);
-  const { push } = useHistory();
-
-  useEffect(() => {
-    if (getToken()) push('/main/home');
-    // eslint-disable-next-line
-  }, []);
 
   const handleChange = ({ target }) => {
     const newState = { ...state };
@@ -34,7 +27,8 @@ export default function Login({ changeForm }) {
         .then((res) => {
           setToken(res.data.accessToken);
           setErrors(null);
-          push('/main/home');
+          // push('/main/home');
+          window.location.href = '/main/home';
         })
         .catch((err) => {
           setErrors(err.errors);

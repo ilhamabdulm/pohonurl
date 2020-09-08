@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import styles from './styles.module.css';
 import { AppContext } from '../../contexts';
 import useWindowSize from '../../utils/windowSize';
-import { clearStorage } from '../../utils/storage';
+import { clearStorage, getToken } from '../../utils/storage';
 import {
   userDetail,
   addNewLink,
@@ -45,6 +45,8 @@ export default function MainPage() {
   }, [width]);
 
   useEffect(() => {
+    if (!getToken()) replace('/');
+
     userDetail()
       .then((res) => setUserDetails(res.data))
       .catch((err) => console.log(err));
@@ -236,7 +238,7 @@ export default function MainPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    https://jadisatu.in/id/{userDetails.username}
+                    https://jadisatu.in/{userDetails.username}
                   </a>
                 </header>
                 <ProfileSection />
@@ -278,7 +280,7 @@ export const NavMobile = ({ setIsProfile, userDetails }) => {
       <div>
         <h4>Bagikan Link Kamu</h4>
         <a href={`$/${userDetails.username}`}>
-          https://jadisatu.in/id/{userDetails.username}
+          https://jadisatu.in/{userDetails.username}
         </a>
       </div>
       <nav>

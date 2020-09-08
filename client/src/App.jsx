@@ -11,7 +11,7 @@ function App() {
   return (
     <MainContext>
       <Switch>
-        <Route exact path="/id/:username" component={LinkPage} />
+        <Route exact path="/:username" component={LinkPage} />
         <Route exact path="/" component={AuthPage} />
         <Route exact path="/main/home" component={MainPage} />
       </Switch>
