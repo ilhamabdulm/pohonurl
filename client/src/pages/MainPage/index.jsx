@@ -51,6 +51,7 @@ export default function MainPage() {
     getAllLinks()
       .then((res) => setLinkList(res.data))
       .catch((err) => console.log(err));
+    // eslint-disable-next-line
   }, []);
 
   const handleChange = ({ target }) => {

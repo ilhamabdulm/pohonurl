@@ -18,6 +18,7 @@ export default function Login({ changeForm }) {
 
   useEffect(() => {
     if (getToken()) push('/main/home');
+    // eslint-disable-next-line
   }, []);
 
   const handleChange = ({ target }) => {
