@@ -1,4 +1,6 @@
 const Link = require('../models/link');
+const User = require('../models/user');
+const { Types } = require('mongoose');
 
 class LinkController {
   static async getAll(req, res, next) {
@@ -96,6 +98,24 @@ class LinkController {
         message: 'Edit data berhasil',
       });
     } catch (err) {
+      next(err);
+    }
+  }
+
+  static async getUserLinks(req, res, next) {
+    try {
+      const username = req.params.username;
+      const userData = await User.findOne({ username });
+      if (!userData) throw { code: 404, message: 'User not found!' };
+      const links = await Link.find({ user_id: userData['_id'] });
+      res.status(200).json({
+        code: 200,
+        success: true,
+        data: { links, user: userData },
+        message: 'Get user links success',
+      });
+    } catch (err) {
+      console.log(err);
       next(err);
     }
   }

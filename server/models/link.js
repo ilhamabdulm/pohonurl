@@ -10,7 +10,7 @@ const linkSchema = new Schema({
     required: true,
   },
   user_id: {
-    type: Types.ObjectId,
+    type: String,
     ref: 'User',
   },
   createdAt: {

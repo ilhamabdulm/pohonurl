@@ -28,6 +28,10 @@ const userSchema = new Schema({
     required: true,
     minlength: [6, 'Password must be 6 character or more'],
   },
+  avatar: {
+    type: String,
+    required: false,
+  },
 });
 
 userSchema.pre('save', function (next) {

@@ -7,5 +7,6 @@ router.get('/:id', Authentication, LinkController.getDetails);
 router.post('/', Authentication, LinkController.addLink);
 router.delete('/:id', Authentication, LinkController.deleteLink);
 router.put('/:id', Authentication, LinkController.editLinkDetails);
+router.get('/user/:username', LinkController.getUserLinks);
 
 module.exports = router;

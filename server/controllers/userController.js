@@ -11,6 +11,11 @@ class UserController {
       password: req.body.password,
     };
     try {
+      const registeredUser = await User.findOne({
+        username: userData.username,
+      });
+      if (registeredUser)
+        throw { code: 400, message: 'Username ini sudah terdaftar' };
       const createdData = await User.create(userData);
       if (createdData) {
         res.status(201).json({
@@ -76,6 +81,7 @@ class UserController {
         data: {
           name: result.name || '',
           username: result.username,
+          avatar: result.avatar || '',
         },
         message: 'Detail user',
       });
