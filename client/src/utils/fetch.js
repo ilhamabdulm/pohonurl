@@ -12,6 +12,7 @@ function fetchApi(url, method, param1, param2) {
           status: 'error',
           message: 'Failed to fetch data. Please contact developer.',
         };
+        console.log(err);
         if (!err.response) rej(defaultError);
         else if (!err.response.data) rej(defaultError);
         else rej(err.response.data);

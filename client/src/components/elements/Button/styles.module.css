@@ -44,3 +44,13 @@
 .button.danger:hover {
   background-color: #b61414;
 }
+
+.button.bordered {
+  background-color: var(--white-text-color);
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+}
+
+.button.bordered:hover {
+  background-color: #fafafa;
+}

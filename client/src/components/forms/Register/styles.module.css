@@ -39,3 +39,8 @@
 .register-form > div > p:hover {
   color: var(--primary-color);
 }
+
+.error {
+  color: var(--danger-color);
+  font-weight: 600;
+}

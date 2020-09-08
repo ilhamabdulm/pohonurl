@@ -19,6 +19,7 @@ import ProfileSection from '../../components/fragments/ProfileSection';
 import AddLink from '../../components/forms/AddLink';
 import LinkDetails from '../../components/fragments/LinkDetails';
 import ModalSuccess from '../../components/fragments/ModalSuccess';
+import ModalConfirmation from '../../components/fragments/ModalConfirmation';
 
 export default function MainPage() {
   const [addLink, setAddLink] = useState({
@@ -31,6 +32,7 @@ export default function MainPage() {
   const [isMobile, setMobile] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
+  const [logoutModal, setLogoutModal] = useState(false);
   const { userDetails, linkList, setUserDetails, setLinkList } = useContext(
     AppContext
   );
@@ -131,17 +133,14 @@ export default function MainPage() {
             <div className={styles.title}>
               <img alt="ic-tree" src={IC_TREE} />
               <h2>
-                PohonUrl <span>Atur link kamu, sesukamu!</span>
+                JadiSatu <span>Atur link kamu, sesukamu!</span>
               </h2>
             </div>
             <div className={styles.profile}>
               <p>Hello, {userDetails.name}</p>
               <h6
                 className={styles['logout-btn']}
-                onClick={() => {
-                  replace('/');
-                  clearStorage();
-                }}
+                onClick={() => setLogoutModal(true)}
               >
                 Logout
                 <img alt="ic-logout" src={IC_LOGOUT} />
@@ -149,7 +148,12 @@ export default function MainPage() {
             </div>
           </header>
           <article className={styles.content}>
-            {width < 754 && <NavMobile setIsProfile={setIsProfile} />}
+            {width < 754 && (
+              <NavMobile
+                setIsProfile={setIsProfile}
+                userDetails={userDetails}
+              />
+            )}
             {!isMobile && (
               <section className={styles['manage-link']}>
                 <AddLink
@@ -231,7 +235,7 @@ export default function MainPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    https://pohonurl.com/{userDetails.username}
+                    https://jadisatu.in/{userDetails.username}
                   </a>
                 </header>
                 <ProfileSection />
@@ -252,16 +256,29 @@ export default function MainPage() {
         action={() => setSuccessModal(false)}
         message={successMessage}
       />
+      <ModalConfirmation
+        message="Apakah anda yakin untuk logout?"
+        action={() => {
+          replace('/');
+          clearStorage();
+          setLogoutModal(false);
+        }}
+        handleClick={() => setLogoutModal(true)}
+        open={logoutModal}
+        onClose={() => setLogoutModal(false)}
+      />
     </>
   );
 }
 
-export const NavMobile = ({ setIsProfile }) => {
+export const NavMobile = ({ setIsProfile, userDetails }) => {
   return (
     <header className={styles['nav-mobile']}>
       <div>
         <h4>Bagikan Link Kamu</h4>
-        <a href="/ilhammarzlik">https://pohonurl.com/ilhamarzlik</a>
+        <a href={`$/${userDetails.username}`}>
+          https://jadisatu.in/{userDetails.username}
+        </a>
       </div>
       <nav>
         <p onClick={() => setIsProfile(false)}>Home</p>

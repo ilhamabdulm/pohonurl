@@ -30,7 +30,7 @@ export default function Register({ changeForm }) {
       })
       .catch((err) => {
         console.log(err);
-        setErrors(err.errors[0]);
+        setErrors(err.errors);
       });
   };
 
@@ -72,6 +72,8 @@ export default function Register({ changeForm }) {
           label="Password"
           handleChange={handleChange}
         />
+        {errors &&
+          errors.map((err) => <span className={styles.error}>{err}</span>)}
         <Button handleClick={handleSubmit} variant="primary">
           Daftar
         </Button>

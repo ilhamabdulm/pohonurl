@@ -16,7 +16,7 @@ export default function ProfileSection() {
     username: '',
   });
   const [openModal, setOpenModal] = useState(false);
-  const { userDetails } = useContext(AppContext);
+  const { userDetails, setUserDetails } = useContext(AppContext);
 
   useEffect(() => userDetails && setState(userDetails), [userDetails]);
 
@@ -32,7 +32,8 @@ export default function ProfileSection() {
       .then(() => {
         return userDetail();
       })
-      .then(() => {
+      .then((res) => {
+        setUserDetails(res.data);
         setOpenModal(true);
       })
       .catch((err) => console.log(err));
