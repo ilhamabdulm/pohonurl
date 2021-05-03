@@ -23,7 +23,7 @@ export default function AuthPage() {
         <img alt="illu-share" src={ILLU_SHARE} />
         <figcaption>
           <h3>Cuma bisa pasang satu URL di bio sosial media kamu?</h3>
-          <h2>JadiSatu.in aja semua di sini!</h2>
+          <h2>JadiSatu.in aja di sini!</h2>
           <h4>Yuk, kelola link kamu bersama kami! Gratis kok!</h4>
         </figcaption>
       </figure>
