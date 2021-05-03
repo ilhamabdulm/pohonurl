@@ -24,7 +24,7 @@ export default function AuthPage() {
         <figcaption>
           <h3>Cuma bisa pasang satu URL di bio sosial media kamu?</h3>
           <h2>JadiSatu.in aja di sini!</h2>
-          <h4>Yuk, kelola link kamu bersama kami! Gratis kok!</h4>
+          <h4>Yuk, kelola link kamu bersama kami! Gratis!</h4>
         </figcaption>
       </figure>
       <aside className={styles['auth-area']}>
